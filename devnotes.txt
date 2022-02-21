@@ -24,4 +24,18 @@
 2022-02-20 10:46:12 mlx@gmate-standalone > rm pages/index.js 
 2022-02-20 10:48:06 mlx@gmate-standalone > touch pages/index.jsx
 2022-02-20 10:48:19 mlx@gmate-standalone > touch jsconfig.json
+2022-02-20 10:49:21 mlx@gmate-standalone > touch .env.development
+2022-02-20 10:50:49 mlx@gmate-standalone > touch pages/login.jsx
+
+
+2022-02-20 11:00:59 mlx@gmate-standalone > npm install -D tailwindcss postcss autoprefixer
+2022-02-20 11:01:17 mlx@gmate-standalone > npx tailwindcss init -p
+
+2022-02-20 11:01:25 mlx@gmate-standalone > npm i mongodb
+2022-02-20 12:11:43 mlx@gmate-standalone > touch lib/database.js
+2022-02-20 12:13:06 mlx@gmate-standalone > touch pages/api/get.js
+2022-02-20 12:15:02 mlx@gmate-standalone > touch lib/config.js   
+2022-02-20 12:27:44 mlx@gmate-standalone > npm i bcryptjs
+2022-02-20 13:53:41 mlx@gmate-standalone > touch lib/utils.js
+
 

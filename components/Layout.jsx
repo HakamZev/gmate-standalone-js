@@ -1,39 +1,15 @@
 import Head from 'next/head'
-// import Header from 'components/Header'
 
-// export default function Layout({ children }: { children: React.ReactNode }) {
-export default function Layout({ children }) {
+export default function Layout({ title, children }) {
   return (
     <>
       <Head>
-        <title>With Iron Session</title>
+        <title>{title || "Gmate Standalone"}</title>
       </Head>
-      <style jsx global>{`
-        *,
-        *::before,
-        *::after {
-          box-sizing: border-box;
-        }
-
-        body {
-          margin: 0;
-          color: #333;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-            'Helvetica Neue', Arial, Noto Sans, sans-serif, 'Apple Color Emoji',
-            'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-        }
-
-        .container {
-          max-width: 65rem;
-          margin: 1.5rem auto;
-          padding-left: 1rem;
-          padding-right: 1rem;
-        }
-      `}</style>
-      {/* <Header /> */}
-
-      <main>
-        <div className="container">{children}</div>
+      <main className="bg-sky-100 antialiased">
+        <div className="bg-white min-h-screen max-w-2xl mx-auto px-5">
+          {children}
+        </div>
       </main>
     </>
   )

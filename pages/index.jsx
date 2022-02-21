@@ -1,66 +1,103 @@
+import ForHome from 'components/Home'
 import Layout from 'components/Layout'
-import Image from 'next/image'
-import Link from 'next/link'
+import LoginForm from 'components/LoginForm'
+import Masthead from 'components/Masthead'
+import Nav from 'components/Nav'
+import Register from 'components/Register'
+import fetchJson, { FetchError } from 'lib/fetchJson'
+import useUser from 'lib/useUser'
+import { useState } from 'react'
 
 export default function Home() {
+  const { user, mutateUser } = useUser()
+
+  const [active, setActive] = useState('login')
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const btn = 'block border-b-4 border-white hover:border-gray-300 pb-1'
+  const btnActive = 'block border-b-4 border-sky-500 pb-1'
+
   return (
-    <Layout>
-      <h1>
-        <span style={{ marginRight: '.3em', verticalAlign: 'middle' }}>
-          <Image src="/GitHub-Mark-32px.png" width="32" height="32" alt="" />
-        </span>
-        <a href="https://github.com/vvo/iron-session">iron-session</a> -
-        Authentication example
-      </h1>
+    <Layout title="GMATE">
+      <Masthead />
 
-      <p>
-        This example creates an authentication system that uses a{' '}
-        <b>signed and encrypted cookie to store session data</b>.
-      </p>
+      <Nav user={user} />
 
-      <p>
-        It uses current best practices as for authentication in the Next.js
-        ecosystem:
-        <br />
-        1. <b>no `getInitialProps`</b> to ensure every page is static
-        <br />
-        2. <b>`useUser` hook</b> together with `
-        <a href="https://swr.vercel.app/">swr`</a> for data fetching
-      </p>
-      
-      <p>
-        <Link href='/login'>
-          <a>Login</a>
-        </Link>
-      </p>
+      {/* User belum login */}
+      {(!user || !user.isLoggedIn) && (
+        <div className="rounded border border-gray-300 max-w-sm mx-auto p-4 my-10">
+          <div className="flex space-x-5 mb-6">
+            <button
+              className={active == 'login' ? btnActive : btn}
+              onClick={e => setActive('login')}
+            >Login</button>
+            <button
+              className={active == 'register' ? btnActive : btn}
+              onClick={e => setActive('register')}
+            >Register</button>
+          </div>
 
-      <h2>Features</h2>
+          {active == 'register' && <Register
+            errorMessage={errorMsg}
+            onSubmit={async function handleRegister(event) {
+              event.preventDefault()
+              const body = {
+                fullname: event.currentTarget.fullname.value,
+                username: event.currentTarget.username.value,
+                password: event.currentTarget.password.value,
+              }
 
-      <ul>
-        <li>Logged in status synchronized between browser windows/tabs</li>
-        <li>Layout based on logged in status</li>
-        <li>All pages are static</li>
-        <li>Session data is signed and encrypted in a cookie</li>
-      </ul>
+              try {
+                mutateUser(
+                  await fetchJson('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
+                  })
+                )
+              } catch (error) {
+                if (error instanceof FetchError) {
+                  setErrorMsg(error.data.message)
+                  console.log("ERR", error.data.message);
 
-      <h2>Steps to test the functionality:</h2>
+                } else {
+                  console.error('An unexpected error happened:', error)
+                }
+              }
+            }}
+          />}
 
-      <ol>
-        <li>Click login and enter your GitHub username.</li>
-        <li>
-          Click home and click profile again, notice how your session is being
-          used through a token stored in a cookie.
-        </li>
-        <li>
-          Click logout and try to go to profile again. You&apos;ll get
-          redirected to the `/login` route.
-        </li>
-      </ol>
-      <style jsx>{`
-        li {
-          margin-bottom: 0.5rem;
-        }
-      `}</style>
+          {active == 'login' && <LoginForm
+            errorMessage={errorMsg}
+            onSubmit={async function handleSubmit(event) {
+              event.preventDefault();
+              setErrorMsg("")
+
+              const body = {
+                username: event.currentTarget.username.value,
+                password: event.currentTarget.password.value,
+              };
+
+              try {
+                mutateUser(
+                  await fetchJson("/api/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body),
+                  }),
+                );
+              } catch (error) {
+                if (error instanceof FetchError) {
+                  setErrorMsg(error.data.message);
+                } else {
+                  console.error("An unexpected error happened:", error);
+                }
+              }
+            }}
+          />}
+        </div>
+      )}
+
     </Layout>
   )
 }
