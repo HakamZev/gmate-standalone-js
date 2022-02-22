@@ -9,10 +9,10 @@ const ACCEPTED_QUERIES = {}
 export default withSessionRoute(async (req, res) => {
     // const user = req.session.get("user");
     const user = req.session.user;
-    console.log('SESSION', req.session)
-    
-    console.log(createPasswordHash('muslax'))
-    // const verified = 
+    // console.log('SESSION', req.session)
+
+    // console.log(createPasswordHash('muslax'))
+    // const verified =
 
   if (!user || user.isLoggedIn === false) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -21,7 +21,7 @@ export default withSessionRoute(async (req, res) => {
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
-  
+
   const { q } = req.query;
   console.log(new Date(), q);
 
@@ -37,7 +37,29 @@ export default withSessionRoute(async (req, res) => {
 ACCEPTED_QUERIES['users'] = async function (req, res) {
   try {
     const { db } = await connect();
-    const rs = await db.collection('users').findOne({ _id: ObjectId('6211ccf16b3d39b491af532f') }); //.toArray();
+    const rs = await db.collection('users').find({ _id: ObjectId('6211ccf16b3d39b491af532f') }).toArray();
+    return res.json( rs );
+  } catch (error) {
+    return res.status(error.status || 500).end(error.message)
+  }
+}
+
+ACCEPTED_QUERIES['tests'] = async function (req, res) {
+  try {
+    const user = req.session.user
+    const { db } = await connect();
+    const rs = await db.collection('gmate').find({ user_id: user._id }).toArray();
+    return res.json( rs );
+  } catch (error) {
+    return res.status(error.status || 500).end(error.message)
+  }
+}
+
+ACCEPTED_QUERIES['my-tests'] = async function (req, res) {
+  try {
+    const user = req.session.user
+    const { db } = await connect();
+    const rs = await db.collection('gmate').find({ user_id: user._id }).toArray();
     return res.json( rs );
   } catch (error) {
     return res.status(error.status || 500).end(error.message)

@@ -2,6 +2,7 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "lib/session";
 import { connect } from "lib/database";
 import { createPasswordHash } from "lib/utils";
+import { ObjectId } from "mongodb";
 
 export default withIronSessionApiRoute(async (req, res) => {
   const { fullname, username, password } = await req.body;
@@ -16,9 +17,11 @@ export default withIronSessionApiRoute(async (req, res) => {
       res.status(500).json({ message: 'Username sudah terpakai' });
     }
 
+    const id = new ObjectId()
     const hash = createPasswordHash(password)
 
     const created = await db.collection('users').insertOne({
+      _id: id,
       fullname: fullname,
       username: username,
       isAdmin: false,
@@ -28,6 +31,7 @@ export default withIronSessionApiRoute(async (req, res) => {
 
     if (created.acknowledged === true) {
       const user = {
+        _id: id.toString(),
         isLoggedIn: true,
         username: username,
         fullname: fullname,

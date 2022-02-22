@@ -1,4 +1,4 @@
-import ForHome from 'components/Home'
+import Dashboard from 'components/Dashboard'
 import Layout from 'components/Layout'
 import LoginForm from 'components/LoginForm'
 import Masthead from 'components/Masthead'
@@ -96,6 +96,14 @@ export default function Home() {
             }}
           />}
         </div>
+      )}
+
+      {/* User sudah login */}
+      {user?.isLoggedIn && (
+        <Dashboard
+          user={user}
+          mutateUser={mutateUser}
+        />
       )}
 
     </Layout>

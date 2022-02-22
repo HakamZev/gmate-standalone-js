@@ -22,7 +22,10 @@ export default withIronSessionApiRoute(async (req, res) => {
 
     const user = {
       isLoggedIn: true,
-      ...found
+      _id: found._id,
+      fullname: found.fullname,
+      username: found.username,
+      isAdmin: found.isAdmin,
     }
 
     req.session.user = user;
