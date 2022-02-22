@@ -22,6 +22,8 @@ export default function UserTest({ testdata }) {
   const [finished, setFinished] = useState(testdata.length == testdata.done);
 
   const [savedItems, setSavedItems] = useState([]);
+  const [skipped, setSkipped] = useState([]);
+  const [isSkipped, setIsSkipped] = useState(false);
 
   function next(e) {
     if (seq < testdata.length -1) {
@@ -100,9 +102,9 @@ export default function UserTest({ testdata }) {
 
       {!finished && (
         <div>
-          <div className="kondisi -mx-5 p-5 bg-blue-50 text-[15px] border-t border-b border-blue-100 min-h-[300px] mb-8">
+          {/* <div className="kondisi -mx-5 p-5 bg-blue-50 text-[15px] border-t border-b border-blue-100 min-h-[300px] mb-8">
             <div dangerouslySetInnerHTML={{ __html: kondisi }} />
-          </div>
+          </div> */}
 
           <div className="soal text-[15px] mb-6">
             <div dangerouslySetInnerHTML={{ __html: soal.soal }} />
@@ -119,15 +121,36 @@ export default function UserTest({ testdata }) {
             setValue={setValue}
           />
 
-          <p className="text-center my-2">
-            <button className="border border-sky-500 font-bold px-4 py-1"
-            onClick={saveItem}
-            >{seq + 1}</button>
-          </p>
+          <div className="text-center my-2">
+            <button className="bg-gray-300 rounded border border-gray-300 font-bold px-4 py-1 mr-6"
+            onClick={e => {
+              if (!skipped.includes(seq)) {
+                setSkipped([...skipped, seq])
+              }
+            }}
+            >
+              Lewati
+            </button>
+            {!selected && (
+              <button className="text-gray-300 rounded border font-bold px-4 py-1">
+                Save No.{seq + 1}
+              </button>
+            )}
+            {selected && (
+              <button className="rounded bg-green-500 border border-green-500 text-white font-bold px-4 py-1"
+              onClick={saveItem}
+              >Save No.{seq + 1}</button>
+            )}
+          </div>
         </div>
       )}
 
-
+      <details className="my-4">
+        <summary className="text-sm cursor-pointer hover:bg-gray-200 mb-1">Skipped</summary>
+          <Stringify thing={skipped} label="" />
+          <br/>
+        <Stringify thing={savedItems.sort((a, b) => {return b.seq - a.seq})} label="" />
+      </details>
 
       <details className="my-4">
         <summary className="text-sm cursor-pointer hover:bg-gray-200 mb-1">Test data</summary>

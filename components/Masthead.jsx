@@ -1,8 +1,13 @@
-export default function Masthead() {
+export default function Masthead({ title }) {
   return (
     <div className="py-5">
       <h1 className='text-3xl text-center text-sky-700 tracking-tight font-bold'>
-        Gmate<span className='text-gray-400'>Standalone</span>
+        {title && title}
+        {!title && (
+          <>
+            Gmate<span className='text-gray-400'>Standalone</span>
+          </>
+        )}
       </h1>
     </div>
   )
