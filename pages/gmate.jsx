@@ -11,7 +11,7 @@ export default function Gmate({ user }) {
     redirectTo: '/login',
   })
   const router = useRouter()
-  
+
   return (
     <Layout>
       <h1 className='text-5xl text--center text-sky-700 tracking-tight font-bold my-12'>
@@ -28,10 +28,10 @@ export default function Gmate({ user }) {
               Home
             </a>
           </Link>
-          
+
+          <Link href="/api/logout">
           <a
             className="rounded-lg border-2 border-sky-600 hover:bg-sky-600 text-sky-500 hover:text-white font-semibold px-6 py-2 ml-4"
-            href="/api/logout"
             onClick={async (e) => {
               e.preventDefault()
               mutateUser(
@@ -43,9 +43,10 @@ export default function Gmate({ user }) {
           >
             Logout
           </a>
+          </Link>
         </p>
       </div>
-      
+
     </Layout>
   )
 }

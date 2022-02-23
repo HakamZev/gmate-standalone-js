@@ -16,15 +16,15 @@ export default function Login() {
     redirectTo: "/gmate",
     redirectIfFound: true,
   });
-  
+
   useEffect(() => {
     if (user?.isLoggedIn) {
       router.push('/gmate')
     }
-  }, [user])
+  }, [user, router])
 
   const [errorMsg, setErrorMsg] = useState("");
-  
+
   if (user?.isLoggedIn) return null;
 
   return (

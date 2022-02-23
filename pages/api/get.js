@@ -37,7 +37,7 @@ export default withSessionRoute(async (req, res) => {
 ACCEPTED_QUERIES['users'] = async function (req, res) {
   try {
     const { db } = await connect();
-    const rs = await db.collection('users').find({ _id: ObjectId('6211ccf16b3d39b491af532f') }).toArray();
+    const rs = await db.collection('users').find({}).toArray();
     return res.json( rs );
   } catch (error) {
     return res.status(error.status || 500).end(error.message)

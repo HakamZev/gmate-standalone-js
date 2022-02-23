@@ -1,11 +1,12 @@
 import fetchJson from "lib/fetchJson"
 import useUser from "lib/useUser"
+import Link from "next/link"
 // import { useRouter } from "next/router"
 
 export default function Nav({ user }) {
   const { mutateUser } = useUser()
   // const router = useRouter()
-  
+
   return (
     <div className="border-t border-b border-sky-100 -mx-5 px-5 py-2">
       {/* User belum login */}
@@ -14,7 +15,7 @@ export default function Nav({ user }) {
           Silakan login atau register ...
         </p>
       )}
-      
+
       {/* User sudah login */}
       {user?.isLoggedIn && (
         <div className="flex space-x-4 items-center">
@@ -22,9 +23,9 @@ export default function Nav({ user }) {
             <span className="text-sky-600 font-semibold">{user.fullname}</span>
           </div>
           <div>
+            <Link href="/api/logout">
             <a
               className="rounded bg-gray-200 border border-white hover:border-gray-400 hover:shadow-sm text-sm text-gray-500 px-2 py-1"
-              href="/api/logout"
               onClick={async (e) => {
                 e.preventDefault()
                 mutateUser(
@@ -36,6 +37,7 @@ export default function Nav({ user }) {
             >
               Logout
             </a>
+            </Link>
           </div>
         </div>
       )}

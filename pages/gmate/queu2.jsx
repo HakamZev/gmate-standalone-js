@@ -4,7 +4,7 @@ import { createSequence, getItem } from 'gmate-flat-module'
 import { useEffect, useState } from 'react'
 
 
-const source = createSequence() //.slice(0, 15)
+const source = createSequence().slice(0, 15)
 
 export default function Queu() {
 

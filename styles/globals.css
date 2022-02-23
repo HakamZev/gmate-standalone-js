@@ -5,12 +5,8 @@
 ol.pilihan {
     padding-left: 0rem;
     font-size: 15px;
-    /* list-style-type: lower-alpha; */
-    /* list-style-position: inside; */
 }
 ol.pilihan li::marker {
-    /* display: block; */
-    /* width: 40px; */
     color: brown;
     float: left;
 }

@@ -19,7 +19,7 @@ export default function Queu() {
     if (seq < sequence.length - 1) {
       setSoal(getItem(sequence[seq]))
     }
-  }, [seq, setSoal, getItem]);
+  }, [seq, setSoal, sequence]);
 
   function next() {
     if (seq < sequence.length - 1) {
@@ -102,7 +102,7 @@ export default function Queu() {
       }
       <div className="flex flex-wrap mb-2">
         {sequence.map(s => (
-          <button className={savedItems.includes(s) ? saved : (s == sequence[seq] ? current : normal)}>
+          <button key={s} className={savedItems.includes(s) ? saved : (s == sequence[seq] ? current : normal)}>
             {s}
           </button>
         ))}
@@ -115,7 +115,7 @@ export default function Queu() {
           SKIPPED
         </button> */}
         {skippedItems.map(s => (
-          <button className="text-xs tracking-tight h-8 w-8 border mr-1 mb-2"
+          <button key={s} className="text-xs tracking-tight h-8 w-8 border mr-1 mb-2"
           onClick={e => {
             // const item = sequence[seq]
             // if (!skippedItems.includes(item)) {
@@ -136,7 +136,7 @@ export default function Queu() {
       <hr className='mb-4' />
 
       <div className="flex flex-wrap mb-2">
-        {savedItems.map(s => <button className={saved}> {s} </button>)}
+        {savedItems.map(s => <button key={s} className={saved}> {s} </button>)}
         <button className={normal}>{savedItems.length}</button>
       </div>
 
